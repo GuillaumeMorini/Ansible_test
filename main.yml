@@ -1,0 +1,49 @@
+---
+- hosts: lab-cisco
+  vars:
+    pack:
+      - bash
+#      - bmon
+      - bzip2
+      - curl
+      - gawk
+      - git
+      - grep
+      - gzip
+      - less
+      - net-tools
+      - nload
+      - python
+      - sudo
+      - tar
+      - telnet
+      - unzip
+      - vim
+      - wget
+  remote_user: root
+#  sudo: True
+  connection: ssh
+
+  tasks:
+# Yum (CentOS/RedHat)
+  - name: Add proxy to Yum conf
+    command: bash -c "grep proxy /etc/yum.conf || ( echo 'http_proxy=http://proxy-wsa.esl.cisco.com:80/' >> /etc/yum.conf ; echo 'https_proxy=http://proxy-wsa.esl.cisco.com:80/' >> /etc/yum.conf ; echo 'proxy=http://proxy-wsa.esl.cisco.com:80/' >> /etc/yum.conf )"
+    when: ansible_pkg_mgr == 'yum' 
+
+  - name: install the latest version of my packages for yum
+    yum: name={{item}} state=latest
+    with_items: pack
+    when: ansible_pkg_mgr == 'yum' 
+
+# Apt (Ubuntu)
+  - name: Add proxy to Apt conf
+    command: grep Proxy /etc/apt/apt.conf || echo 'Acquire::http::Proxy "http://proxy-wsa.esl.cisco.com:80/";' >> /etc/apt/apt.conf
+    when: ansible_pkg_mgr == 'apt' 
+
+  - name: install the latest version of my packages for apt
+    apt: name={{item}} state=latest
+    with_items: pack
+    when: ansible_pkg_mgr == 'apt' 
+
+
+
