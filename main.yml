@@ -1,7 +1,7 @@
 ---
 - hosts: lab-cisco
   vars:
-    pack:
+    pack_base:
       - bash
 #      - bmon
       - bzip2
@@ -16,10 +16,15 @@
       - python
       - sudo
       - tar
+      - tcpdump
       - telnet
       - unzip
       - vim
       - wget
+    pack_adv:
+      - bmon
+      - glances
+
   remote_user: root
 #  sudo: True
   connection: ssh
@@ -29,21 +34,35 @@
   - name: Add proxy to Yum conf
     command: bash -c "grep proxy /etc/yum.conf || ( echo 'http_proxy=http://proxy-wsa.esl.cisco.com:80/' >> /etc/yum.conf ; echo 'https_proxy=http://proxy-wsa.esl.cisco.com:80/' >> /etc/yum.conf ; echo 'proxy=http://proxy-wsa.esl.cisco.com:80/' >> /etc/yum.conf )"
     when: ansible_pkg_mgr == 'yum' 
-
-  - name: install the latest version of my packages for yum
+  - name: upgrade all packages for Yum
+    yum: name=* state=latest
+    when: ansible_pkg_mgr == 'yum' 
+  - name: install the latest version of my packages for Yum
     yum: name={{item}} state=latest
-    with_items: pack
+    with_items: pack_base
+    when: ansible_pkg_mgr == 'yum' 
+  - name: Try to install the latest version of advanced packages for Yum
+    ignore_errors: yes
+    yum: name={{item}} state=latest
+    with_items: pack_adv
     when: ansible_pkg_mgr == 'yum' 
 
 # Apt (Ubuntu)
   - name: Add proxy to Apt conf
-    command: grep Proxy /etc/apt/apt.conf || echo 'Acquire::http::Proxy "http://proxy-wsa.esl.cisco.com:80/";' >> /etc/apt/apt.conf
+    command: bash -c "grep Proxy /etc/apt/apt.conf || echo 'Acquire::http::Proxy "http://proxy-wsa.esl.cisco.com:80/";' >> /etc/apt/apt.conf"
     when: ansible_pkg_mgr == 'apt' 
-
-  - name: install the latest version of my packages for apt
+  - name: updates APT cache
+    apt: update_cache=yes
+    when: ansible_pkg_mgr == 'apt' 
+  - name: upgrade Apt packages
+    apt: upgrade=full
+    when: ansible_pkg_mgr == 'apt' 
+  - name: install the latest version of my packages for Apt
     apt: name={{item}} state=latest
-    with_items: pack
+    with_items: pack_base
     when: ansible_pkg_mgr == 'apt' 
-
-
-
+  - name: Try to install the latest version of advanced packages for Apt
+    ignore_errors: yes
+    apt: name={{item}} state=latest
+    with_items: pack_adv
+    when: ansible_pkg_mgr == 'apt'

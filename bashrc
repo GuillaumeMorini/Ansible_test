@@ -3,7 +3,7 @@
 export PATH=/opt/local/bin:/opt/local/sbin:/usr/local/bin:/usr/local/sbin:$PATH:/Applications/Xcode.app/Contents/Developer/usr/bin/
 # Finished adapting your PATH environment variable for use with MacPorts.
 
-export PATH=/Users/gmorini/Dropbox/Private/Script:$PATH:/Users/gmorini/Library/Android/sdk/tools
+export PATH=/Library/Frameworks/Python.framework/Versions/2.7/bin/:/Users/gmorini/Dropbox/Private/Script:$PATH:/Users/gmorini/Library/Android/sdk/tools
 
 alias l="ls -laFGh"
 alias diffw="diff -b -B --side-by-side --suppress-common-lines -W $COLUMNS"
