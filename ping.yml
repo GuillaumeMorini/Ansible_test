@@ -1,0 +1,14 @@
+---
+- hosts: web
+
+  remote_user: root
+  connection: ssh
+#  sudo: True
+
+  tasks:
+# Ping all
+  - name: Ping all
+    ping:
+
+
+

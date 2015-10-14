@@ -1,0 +1,62 @@
+---
+- hosts: lab-cisco
+
+  remote_user: root
+  connection: ssh
+#  sudo: True
+
+  vars:
+    pack_base:
+      - bash
+#      - bmon
+      - bzip2
+      - curl
+      - gawk
+      - git
+      - grep
+      - gzip
+      - less
+      - net-tools
+      - nload
+      - python
+      - sudo
+      - tar
+      - tcpdump
+      - telnet
+      - unzip
+      - vim
+      - wget
+    pack_adv:
+      - bmon
+      - glances
+
+  tasks:
+# Yum (CentOS/RedHat)
+  - name: Add proxy to Yum conf
+    command: bash -c "grep proxy /etc/yum.conf || ( echo 'http_proxy=http://proxy-wsa.esl.cisco.com:80/' >> /etc/yum.conf ; echo 'https_proxy=http://proxy-wsa.esl.cisco.com:80/' >> /etc/yum.conf ; echo 'proxy=http://proxy-wsa.esl.cisco.com:80/' >> /etc/yum.conf )"
+    when: ansible_pkg_mgr == 'yum' 
+  - name: upgrade all packages for Yum
+    yum: name=* state=latest
+    when: ansible_pkg_mgr == 'yum' 
+
+# Apt (Ubuntu)
+  - name: Add proxy to Apt conf
+    command: bash -c "grep Proxy /etc/apt/apt.conf || echo 'Acquire::http::Proxy "http://proxy-wsa.esl.cisco.com:80/";' >> /etc/apt/apt.conf"
+    when: ansible_pkg_mgr == 'apt' 
+  - name: updates APT cache
+    apt: update_cache=yes
+    when: ansible_pkg_mgr == 'apt' 
+  - name: upgrade Apt packages
+    apt: upgrade=full
+    when: ansible_pkg_mgr == 'apt' 
+
+
+  - name: install the latest version of my packages for Yum and Apt
+    package: name={{item}} state=latest
+    with_items: pack_base
+  - name: Try to install the latest version of advanced packages for Yum and Apt
+    ignore_errors: yes
+    package: name={{item}} state=latest
+    with_items: pack_adv
+
+
