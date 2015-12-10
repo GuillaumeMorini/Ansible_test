@@ -40,13 +40,26 @@ bind F eval "hardstatus alwayslastline"
 startup_message off
 
 screen -t Mon_Mac 0 bash
-screen -t SSH_zk1 1 ssh zk1
-screen -t SSH_zk2 2 ssh zk2
-screen -t SSH_zk3 3 ssh zk3
-
-screen -t SSH_sl1 4 ssh sl1
-screen -t SSH_sl2 5 ssh sl2
-screen -t SSH_sl3 6 ssh sl3
+screen -t PYDOP907 1 telnet 10.60.1.21 60001
+screen -t PYDOP908 2 telnet 10.60.1.21 60002
+screen -t BEDOP908 3 telnet 10.60.1.21 60003
+screen -t BEDOP907 4 telnet 10.60.1.21 60004
+screen -t NLDOP907 5 telnet 10.60.1.21 60005
+screen -t NLDOP908 6 telnet 10.60.1.21 60006
+screen -t TLDOP907 7 telnet 10.60.1.21 60007
+screen -t BEDORR1  8 telnet 10.60.1.21 60008
+screen -t PYDORR1  9 telnet 10.60.1.21 60009
+screen -t NLDO01   10 telnet 10.60.1.21 60010
+screen -t NLDO02   11 telnet 10.60.1.21 60011
+screen -t TLDO01   12 telnet 10.60.1.21 60012
+screen -t OFDC01   13 telnet 10.60.1.21 60013
+screen -t OFDC03   14 telnet 10.60.1.21 60014
+screen -t OFDC02   15 telnet 10.60.1.21 60015
+screen -t PYWB513  16 telnet 10.60.1.21 60016
+screen -t PYDO503  17 telnet 10.60.1.21 60017
+screen -t BEWB513  18 telnet 10.60.1.21 60018
+screen -t BEDO503  19 telnet 10.60.1.21 60019
+screen -t Internet 20 telnet 10.60.1.21 60020
 
 select 0
 

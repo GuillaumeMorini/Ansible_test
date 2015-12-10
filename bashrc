@@ -1,9 +1,10 @@
 
 # MacPorts Installer addition on 2011-04-18_at_21:28:53: adding an appropriate PATH variable for use with MacPorts.
-export PATH=/opt/local/bin:/opt/local/sbin:/usr/local/bin:/usr/local/sbin:$PATH:/Applications/Xcode.app/Contents/Developer/usr/bin/
+export PATH=/opt/local/bin:/opt/local/sbin:/usr/bin:/usr/local/sbin:$PATH:/Applications/Xcode.app/Contents/Developer/usr/local/bin/:$HOME/bin
 # Finished adapting your PATH environment variable for use with MacPorts.
 
-export PATH=/Library/Frameworks/Python.framework/Versions/2.7/bin/:/Users/gmorini/Dropbox/Private/Script:$PATH:/Users/gmorini/Library/Android/sdk/tools
+# export PATH=/Library/Frameworks/Python.framework/Versions/2.7/bin/:/Users/gmorini/Dropbox/Private/Script:$PATH:/Users/gmorini/Library/Android/sdk/tools
+export PATH=/Users/gmorini/Dropbox/Private/Script:$PATH:/Users/gmorini/Library/Android/sdk/tools
 
 alias l="ls -laFGh"
 alias diffw="diff -b -B --side-by-side --suppress-common-lines -W $COLUMNS"
@@ -35,4 +36,12 @@ eval "$(docker-machine env default)"
 
 # Java env
 export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.8.0_60.jdk/Contents/Home/
+
+# Python virtualenv
+#export WORKON_HOME=~/.virtualenvs
+#mkdir -p $WORKON_HOME
+#source /Library/Frameworks/Python.framework/Versions/2.7/bin/virtualenvwrapper.sh
+
+# Ansible
+#source /Users/gmorini/ansible/hacking/env-setup
 

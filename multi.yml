@@ -1,0 +1,101 @@
+---
+# - hosts: 10.60.7.58
+
+#   remote_user: root
+#   connection: ssh
+# #  sudo: True
+
+#   vars:
+#     pack_base:
+#       - bash
+# #      - bmon
+#       - bzip2
+#       - curl
+#       - gawk
+#       - git
+#       - grep
+#       - gzip
+#       - less
+#       - net-tools
+# #      - nload
+#       - python
+#       - sudo
+#       - tar
+#       - tcpdump
+#       - telnet
+#       - unzip
+#       - vim
+#       - wget
+#     pack_adv:
+#       - bmon
+#       - glances
+
+#   tasks:
+# # .bashrc proxy setting
+#   - name: Add proxy to bash config
+#     command: bash -c "grep proxy /etc/yum.conf || ( echo 'export http_proxy=http://proxy-wsa.esl.cisco.com:80/' >> /root/.bashrc ; echo 'export https_proxy=http://proxy-wsa.esl.cisco.com:80/' >> /root/.bashrc ; echo 'export proxy=http://proxy-wsa.esl.cisco.com:80/' >> /root/.bashrc )"
+
+# # Yum (CentOS/RedHat)
+#   - name: Add proxy to Yum conf
+#     command: bash -c "grep proxy /etc/yum.conf || ( echo 'http_proxy=http://proxy-wsa.esl.cisco.com:80/' >> /etc/yum.conf ; echo 'https_proxy=http://proxy-wsa.esl.cisco.com:80/' >> /etc/yum.conf ; echo 'proxy=http://proxy-wsa.esl.cisco.com:80/' >> /etc/yum.conf )"
+#     when: ansible_pkg_mgr == 'yum' 
+#   - name: upgrade all packages for Yum
+#     yum: name=* state=latest
+#     when: ansible_pkg_mgr == 'yum' 
+
+# # Apt (Ubuntu)
+#   - name: Add proxy to Apt conf
+#     command: bash -c "grep Proxy /etc/apt/apt.conf || echo 'Acquire::http::Proxy "http://proxy-wsa.esl.cisco.com:80/";' >> /etc/apt/apt.conf"
+#     when: ansible_pkg_mgr == 'apt' 
+#   - name: updates APT cache
+#     apt: update_cache=yes
+#     when: ansible_pkg_mgr == 'apt' 
+#   - name: upgrade Apt packages
+#     apt: upgrade=full
+#     when: ansible_pkg_mgr == 'apt' 
+
+
+#   - name: install the latest version of my packages for Yum and Apt
+#     package: name={{item}} state=latest
+#     with_items: pack_base
+#     ignore_errors: yes
+#   - name: Try to install the latest version of advanced packages for Yum and Apt
+#     package: name={{item}} state=latest
+#     with_items: pack_adv
+#     ignore_errors: yes
+
+#   - name: get public DSA key for VMware tools
+#     get_url: url=http://packages.vmware.com/tools/keys/VMWARE-PACKAGING-GPG-DSA-KEY.pub dest=/tmp/
+#   - name: get public RSA key for VMware tools
+#     get_url: url=http://packages.vmware.com/tools/keys/VMWARE-PACKAGING-GPG-RSA-KEY.pub dest=/tmp/
+#   - name: add public keys for VMware tools
+#     command: apt-key add /tmp/VMWARE-PACKAGING-GPG-RSA-KEY.pub /tmp/VMWARE-PACKAGING-GPG-DSA-KEY.pub
+#     when: ansible_pkg_mgr == 'apt' 
+#   - name: add repository for VMware tools
+# #    shell: echo "deb http://packages.vmware.com/packages/ubuntu {{ ansible_distribution_release }} main" > /etc/apt/sources.list.d/vmware-tools.list
+#     shell: echo "deb http://packages.vmware.com/packages/ubuntu trusty main" > /etc/apt/sources.list.d/vmware-tools.list
+#     when: ansible_pkg_mgr == 'apt' 
+#   - name: updates APT cache
+#     apt: update_cache=yes
+#     when: ansible_pkg_mgr == 'apt' 
+#   - name: Install VMware tools and deploy package
+#     package: name=open-vm-tools,open-vm-tools-deploypkg state=latest
+
+
+- hosts: web
+
+  remote_user: root
+  connection: ssh
+#  sudo: True
+
+  vars:
+    pack_web:
+      - nginx
+      - hhvm
+
+  tasks:
+# Install web tools
+  - name: Try to install the latest version of web packages for Yum and Apt
+    package: name={{item}} state=latest
+    with_items: pack_web
+

@@ -2,6 +2,7 @@
 127.0.0.1
 
 [lab-cisco]
+10.60.7.58
 10.60.7.68
 10.60.7.69
 10.60.7.70
@@ -9,17 +10,7 @@
 [nxos]
 10.60.7.201	ansible_connection=ssh	ansible_user=gmorini
 
-[web]
+[webservers]
 10.60.7.61               ansible_user=root
 [web]
-10.60.7.62               ansible_user=root
-[web]
-10.60.7.63               ansible_user=root
-[web]
-10.60.7.64               ansible_user=root
-[web]
-10.60.7.64               ansible_user=root
-[web]
-10.60.7.65               ansible_user=root
-[web]
-10.60.7.61               ansible_user=root
+10.228.42.100               ansible_user=root

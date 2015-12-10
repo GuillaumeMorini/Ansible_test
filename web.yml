@@ -31,6 +31,10 @@
       - glances
 
   tasks:
+# .bashrc proxy setting
+  - name: Add proxy to bash config
+    command: bash -c "grep proxy /etc/yum.conf || ( echo 'export http_proxy=http://proxy-wsa.esl.cisco.com:80/' >> /root/.bashrc ; echo 'export https_proxy=http://proxy-wsa.esl.cisco.com:80/' >> /root/.bashrc ; echo 'export proxy=http://proxy-wsa.esl.cisco.com:80/' >> /root/.bashrc )"
+
 # Yum (CentOS/RedHat)
   - name: Add proxy to Yum conf
     command: bash -c "grep proxy /etc/yum.conf || ( echo 'http_proxy=http://proxy-wsa.esl.cisco.com:80/' >> /etc/yum.conf ; echo 'https_proxy=http://proxy-wsa.esl.cisco.com:80/' >> /etc/yum.conf ; echo 'proxy=http://proxy-wsa.esl.cisco.com:80/' >> /etc/yum.conf )"
